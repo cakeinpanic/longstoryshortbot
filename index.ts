@@ -1,41 +1,17 @@
 import { config } from 'dotenv'
 import TelegramBot from 'node-telegram-bot-api'
-import { bufferTime, filter, groupBy, map, mergeMap, Subject } from 'rxjs'
+import { groupBy, mergeMap, Subject } from 'rxjs'
+import { groupMessagesCameTogether } from './handleMessages'
+
+import { TelegramMessage } from './interface'
 
 config()
 
 const token = process.env.TOKEN
 
-interface Message {
-  message_id: number
-  from: {
-    id: number,
-    is_bot: boolean,
-    first_name: string
-    username: string
-    language_code: string
-  },
-  chat: {
-    id: number,
-    first_name: string
-    username: string
-    type: string
-  },
-  date: number,
-  forward_from: {
-    id: number,
-    is_bot: boolean,
-    first_name: string,
-    username: string,
-    language_code: string
-  },
-  forward_date: number,
-  text: number
-}
-
 const bot = new TelegramBot(token, { polling: true })
 
-const subj = new Subject<Message>()
+const subj = new Subject<TelegramMessage>()
 
 bot.on('channel_post', gotMessage)
 bot.on('message', gotMessage)
@@ -48,8 +24,5 @@ function gotMessage(msg) {
   //bot.sendMessage(chatId, 'Received your message');
 }
 
-subj.pipe(groupBy(({ chat }) => chat.id), mergeMap(group => {
-  return group.pipe(bufferTime(1000), filter(t => t.length > 0), map(data => ({ data, key: group.key })))
-})).subscribe(t => {
-  console.log(t)
-})
+subj.pipe(groupBy<TelegramMessage, number>(({ chat }) => chat.id), mergeMap(t => groupMessagesCameTogether(t))).subscribe(console.log)
+
