@@ -35,6 +35,22 @@ describe('simpleMap', () => {
     })
   })
 
+  it('should ignore messages without text', () => {
+    rxTest.run(({ cold, expectObservable }) => {
+      const lookup = {
+        a: getMessage(1, 0),
+        b: {...getMessage(2, 0), text: undefined},
+        c: getMessage(3, 0),
+        d:{...getMessage(4, 0), text: undefined},
+      }
+
+      const lookup1 = { x: ['text1', 'text3'] }
+      const source = cold('  a-b-c-d 1s |', lookup)
+
+      expectObservable(groupMessagesCameTogether(source, timeout)).toBe('1s x ------ |', lookup1)
+    })
+  })
+
   it('should accept any other timeout value', () => {
     rxTest.run(({ cold, expectObservable }) => {
       const lookup = {
