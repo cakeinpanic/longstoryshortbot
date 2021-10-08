@@ -1,7 +1,7 @@
 import { config } from 'dotenv'
 import TelegramBot from 'node-telegram-bot-api'
 import { Subject } from 'rxjs'
-import { handleMessagesStreamByUser } from './handleMessages'
+import { CollectedMessages, handleMessagesStreamByUser } from './handleMessages'
 import { TelegramMessage } from './interface'
 
 config()
@@ -18,5 +18,9 @@ function gotMessage(msg) {
   messages$.next(msg)
 }
 
-handleMessagesStreamByUser(messages$)
+handleMessagesStreamByUser(messages$, 1000)
+  .subscribe(({ messages, chatId, error }: CollectedMessages) => {
+    messages && bot.sendMessage(chatId, messages.join('\n'))
+    error && bot.sendMessage(chatId, error)
+  })
 

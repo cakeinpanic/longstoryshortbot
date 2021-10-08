@@ -20,11 +20,11 @@ export interface CollectedMessages {
   error?: typeof MET_EMPTY_MESSAGES
 }
 
-export const handleMessagesStreamByUser = (messagesStream: Observable<TelegramMessage>) => {
+export const handleMessagesStreamByUser = (messagesStream: Observable<TelegramMessage>, timeout: number): Observable<CollectedMessages> => {
   return messagesStream.pipe(
     groupBy(({ chat }) => chat.id),
     mergeMap((messageStreamPerUser$) => {
-      return groupMessagesCameTogether(messageStreamPerUser$)
+      return groupMessagesCameTogether(messageStreamPerUser$, timeout)
     }))
 }
 
