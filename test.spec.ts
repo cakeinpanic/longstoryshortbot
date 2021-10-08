@@ -1,5 +1,5 @@
 import { TestScheduler } from 'rxjs/testing'
-import { groupMessagesCameTogether } from './handleMessages'
+import { groupMessagesCameTogether, MET_EMPTY_MESSAGES } from './handleMessages'
 import { TelegramMessage } from './interface'
 
  function getMessage(id: number, chatId: number) : TelegramMessage{
@@ -35,7 +35,7 @@ describe('simpleMap', () => {
     })
   })
 
-  it('should ignore messages without text', () => {
+  it.only('should ignore messages without text and send error enum as next in the stream', () => {
     rxTest.run(({ cold, expectObservable }) => {
       const lookup = {
         a: getMessage(1, 0),
@@ -44,10 +44,10 @@ describe('simpleMap', () => {
         d:{...getMessage(4, 0), text: undefined},
       }
 
-      const lookup1 = { x: ['text1', 'text3'] }
-      const source = cold('  a-b-c-d 1s |', lookup)
+      const lookup1 = { x: ['text1', 'text3'], e: MET_EMPTY_MESSAGES }
+      const source = cold('  a-b-c 1s d 1s |', lookup)
 
-      expectObservable(groupMessagesCameTogether(source, timeout)).toBe('1s x ------ |', lookup1)
+      expectObservable(groupMessagesCameTogether(source, timeout)).toBe('1s (x e) 1s - e |', lookup1)
     })
   })
 
