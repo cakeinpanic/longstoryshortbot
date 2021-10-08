@@ -22,5 +22,5 @@ export interface TelegramMessage {
     language_code: string
   },
   forward_date: number,
-  text: number
+  text: string
 }
