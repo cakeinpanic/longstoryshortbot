@@ -235,8 +235,22 @@ ol {
 ========================================*/
 .hero-area {
   position: relative;
-  padding: 140px 0 120px 0;
+  padding: 20px 0 120px 0;
   background: #ff6b81;
+}
+
+.hero-image {
+  position: relative;
+  left: 31px;
+}
+
+.hero-image img {
+  position: absolute;
+  left: -185px;
+  top: -16px;
+  width: 661px!important;
+  max-width: none;
+  height: 593px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -258,12 +272,14 @@ ol {
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .hero-area .hero-image {
     margin-top: 40px;
+    
   }
 }
 
 @media (max-width: 767px) {
   .hero-area .hero-image {
     margin-top: 40px;
+    transform: scale(0.5);
   }
 }
 
@@ -364,8 +380,6 @@ ol {
   }
 }
 
-.hero-area {
-}
 
 footer {
   height: 30px;
@@ -392,7 +406,7 @@ h1 i {
   text-transform: none;
 }
 
-.hero-image {
+.hero-image img {
   border-radius: 200px;
   overflow: hidden;
 }
@@ -418,4 +432,13 @@ h1 i {
     padding-left: 10px;
     padding-right: 10px;
   }
+
+
+footer {
+  height: 50px;
+  color: #d2d6dc;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
 }
