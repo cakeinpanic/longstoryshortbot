@@ -44,9 +44,9 @@ export const groupMessagesCameTogether = (
       if (filteredMessages.length > 0) {
         result.messages = filteredMessages
       }
-      if (hasErrors) {
-        result.error = MET_EMPTY_MESSAGES
-      }
+      // if (hasErrors) {
+      //   result.error = MET_EMPTY_MESSAGES
+      // }
       return of(result)
 
     })
