@@ -6,7 +6,8 @@
   "dependencies": {
     "dotenv": "^10.0.0",
     "node-telegram-bot-api": "^0.64.0",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "tsx": "^4.7.1"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
@@ -21,8 +22,10 @@
     "node": "18.x"
   },
   "scripts": {
-    "start": "ts-node index.ts",
-    "test": "jest"
+    "start": "tsx index.ts",
+    "test": "jest",
+    "build": "docker build -t longstory .",
+    "run": "docker run --env-file ./.env --name longstory longstory"
   },
   "author": "",
   "license": "ISC"
