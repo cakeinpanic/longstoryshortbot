@@ -17,13 +17,17 @@ const messages$ = new Subject<TelegramMessage>();
 bot.on("message", gotMessage);
 
 function gotMessage(msg) {
-  console.log(JSON.stringify(msg, null, 2))
+  // console.log(JSON.stringify(msg, null, 2))
   messages$.next(msg);
 }
 
 handleMessagesStreamByUser(messages$, 1000).subscribe(
   ({ messages, chatId, error }: CollectedMessages) => {
-    messages && bot.sendMessage(chatId, messages.join("\n"));
+    if(messages) {
+      const resultMessage = messages.join("\n\n");
+      bot.sendMessage(chatId, resultMessage);
+    }
+    
     error && bot.sendMessage(chatId, error);
   }
 );
@@ -38,5 +42,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
 });

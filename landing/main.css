@@ -48,6 +48,7 @@ button:focus,
 .form-check-input:checked {
   background-color: #ff6b81;
   border-color: #ff6b81;
+  
 }
 
 select {
@@ -236,12 +237,15 @@ ol {
 .hero-area {
   position: relative;
   padding: 20px 0 120px 0;
-  background: #ff6b81;
+  background: rgb(209,86,108);
+  background: linear-gradient(0deg, rgba(209,86,108,1) 1%, rgba(254,106,128,1) 47%, rgba(255,107,129,1) 100%);
 }
 
 .hero-image {
   position: relative;
   left: 31px;
+  transform: scale(.9);
+  top: 10px;
 }
 
 .hero-image img {
@@ -251,6 +255,7 @@ ol {
   width: 661px!important;
   max-width: none;
   height: 593px;
+  
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
